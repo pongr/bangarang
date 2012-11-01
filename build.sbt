@@ -6,6 +6,11 @@ version := "0.1-SNAPSHOT"
 
 scalaVersion := "2.9.1"
 
+libraryDependencies ++= Seq(
+  "com.amazonaws" % "aws-java-sdk" % "1.3.22",
+  "org.specs2" %% "specs2" % "1.12.2" % "test"
+)
+
 //http://www.scala-sbt.org/using_sonatype.html
 //https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide
 publishTo <<= version { v: String =>
