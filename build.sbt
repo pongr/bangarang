@@ -2,13 +2,18 @@ organization := "com.pongr"
 
 name := "bangarang"
 
-version := "0.1-SNAPSHOT"
+version := "0.1.1-SNAPSHOT"
 
 scalaVersion := "2.9.1"
 
+resolvers ++= Seq(
+  "Typesafe" at "http://repo.typesafe.com/typesafe/releases"
+)
+
 libraryDependencies ++= Seq(
-  "com.amazonaws" % "aws-java-sdk" % "1.3.22",
-  "org.specs2" %% "specs2" % "1.12.2" % "test"
+  "com.amazonaws" % "aws-java-sdk" % "1.3.26",
+  "com.typesafe.akka" % "akka-actor" % "2.0.4",
+  "org.specs2" %% "specs2" % "1.12.3" % "test"
 )
 
 //http://www.scala-sbt.org/using_sonatype.html
