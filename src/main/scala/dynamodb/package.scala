@@ -28,4 +28,16 @@ package object dynamodb {
 
   /** Stores the byte array as a ByteBuffer. */
   implicit def byteArrayToAttributeValue(bs: Array[Byte]): AttributeValue = new AttributeValue().withB(ByteBuffer.wrap(bs))
+
+  /*
+  TODO repeat an operation repeatedly until lastEvaluationKey is null, accumulating results
+   - ScanRequest
+   - QueryRequest
+
+  TODO repeat an operation repeatedly until unprocessed is null, accumulating results
+   - BatchGetItem - unprocessedKeys to get
+   - BatchWriteItem - unprocessedItems to write
+
+  TODO much more concise API/DSL for building Request objects
+  */
 }
