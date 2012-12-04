@@ -5,7 +5,19 @@ import com.amazonaws.services.s3.model._
 import akka.dispatch._
 import java.io.{File, InputStream, ByteArrayInputStream}
 
-class AmazonS3ClientAsync(s3: AmazonS3Client, implicit val context: ExecutionContext) {
+trait AmazonS3Async {
+  def putObjectAsync(request: PutObjectRequest): Future[PutObjectResult]
+
+  def putObjectAsync(bucket: String, key: String, file: File): Future[PutObjectResult]
+
+  def putObjectAsync(bucket: String, key: String, input: InputStream, metadata: ObjectMetadata): Future[PutObjectResult]
+
+  def putBytesAsync(bucket: String, key: String, bytes: Array[Byte], contentType: String): Future[PutObjectResult]
+
+  def putJpegAsync(bucket: String, key: String, bytes: Array[Byte]): Future[PutObjectResult]
+}
+
+class AmazonS3AsyncClient(s3: AmazonS3Client, implicit val context: ExecutionContext) extends AmazonS3Async {
   def putObjectAsync(request: PutObjectRequest): Future[PutObjectResult] = 
     Future { s3.putObject(request) }
 
@@ -24,8 +36,4 @@ class AmazonS3ClientAsync(s3: AmazonS3Client, implicit val context: ExecutionCon
 
   def putJpegAsync(bucket: String, key: String, bytes: Array[Byte]): Future[PutObjectResult] = 
     putBytesAsync(bucket, key, bytes, "image/jpeg")
-}
-
-object AmazonS3ClientAsync {
-  implicit def syncToAsync(s3: AmazonS3Client)(implicit context: ExecutionContext): AmazonS3ClientAsync = new AmazonS3ClientAsync(s3, context)
 }
