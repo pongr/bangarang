@@ -14,7 +14,9 @@ libraryDependencies ++= Seq(
   "com.amazonaws" % "aws-java-sdk" % "1.3.26",
   "com.typesafe.akka" % "akka-actor" % "2.0.4",
   "org.clapper" %% "grizzled-slf4j" % "0.6.10",
-  "org.specs2" %% "specs2" % "1.12.3" % "test"
+  "org.specs2" %% "specs2" % "1.12.3" % "test",
+  "org.mockito" % "mockito-all" % "1.9.0" % "test",
+  "com.typesafe.akka" % "akka-testkit" % "2.0.4" % "test"
 )
 
 //http://www.scala-sbt.org/using_sonatype.html

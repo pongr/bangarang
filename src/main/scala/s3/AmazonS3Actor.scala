@@ -24,11 +24,16 @@ object AmazonS3Actor {
 }
 
 /** PinnedDispatcher or BalancingDispatcher? */
-class AmazonS3Actor(s3: AmazonS3) extends Actor {
+class AmazonS3Actor(s3: AmazonS3) extends Actor with ActorLogging {
   import AmazonS3Actor._
 
   def receive = {
     case request: PutObjectRequest => sender ! s3.putObject(request)
+    case request @ PutJpeg(bytes, bucket, key, _) => 
+      log.debug("Putting {} bytes to {}/{} to S3...", bytes.size, bucket, key)
+      val result = s3.putObject(request.toPutObjectRequest)
+      log.debug("Put to {}/{} finished", bucket, key)
+      sender ! result
     case request: PutRequest => sender ! s3.putObject(request.toPutObjectRequest)
   }
 }
