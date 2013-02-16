@@ -61,7 +61,7 @@ package object route53 {
     name: String,
     rrType: RRType = A
   ): Option[(String, RRType, Long, String)] = 
-    r53.listResourceRecordSets(newListResourceRecordSetsRequest(zoneId, name, rrType)).getResourceRecordSets.headOption.flatMap { set => 
+    r53.listResourceRecordSets(newListResourceRecordSetsRequest(zoneId, name, rrType)).getResourceRecordSets.filter(s => s.getName == name && RRType.fromValue(s.getType) == rrType).headOption.flatMap { set => 
       set.getResourceRecords.headOption.map { record => 
         (set.getName, RRType.fromValue(set.getType), set.getTTL, record.getValue)
       }
