@@ -6,44 +6,6 @@ import com.amazonaws.services.route53.model.ChangeAction._
 import com.amazonaws.services.route53.model.RRType._
 import scala.collection.JavaConversions._
 
-/*
-route53 Main does this for Farsight, to make sure it's the only IP in the A record:
-  replace(r53, zoneId, name, value)
-So it specifies:
-  - zoneId
-  - name
-  - value
-  - ttl = 60
-  - rrType = A
-
-For the WRR A records, we need to specify:
-  - zoneId
-  - name
-  - value
-  - ** identifier
-  - ** weight = 1
-  - ttl = 60
-  - rrType = A
-
-On startup:
-  newChangeResourceRecordSetsRequest(zoneId, subdomain, publicIp, setIdentifier = instanceId, weight = 1)
-
-On shutdown:
-  newChangeResourceRecordSetsRequest(zoneId, subdomain, publicIp, setIdentifier = instanceId, weight = 1, action = DELETE)
-
-Things to test:
-  - OK initially create the A record (when it doesn't already exist)
-  - OK add another IP to the A record (when it already exists)
-  - OK remove one IP from A record (when it has multiple)
-  - OK remove the last IP from A record (does it delete it entirely?)
-  - OK idempotent adds (add a duplicate and nothing happens)
-    - throws exception and does not add duplicate record
-    - Status Code: 400, AWS Service: AmazonRoute53, AWS Request ID: f3dd2b47-7854-11e2-be44-5d8c7e675300, AWS Error Code: InvalidChangeBatch, AWS Error Message: Tried to create resource record set [name='mail.foo.pongrdev.com.', type=A, set-identifier='i-aaaa2222'] but it already exists
-  - OK idempotent deletes (delete record again, nothing happens)
-    - throws exception and does not mess anything up
-    - Status Code: 400, AWS Service: AmazonRoute53, AWS Request ID: 50f40a41-7855-11e2-be44-5d8c7e675300, AWS Error Code: InvalidChangeBatch, AWS Error Message: Tried to delete resource record set [name='mail.foo.pongrdev.com.', type=A, set-identifier='i-aaaa1111'] but it was not found
-*/
-
 package object route53 {
 
   /** Returns a new ChangeResourceRecordSetsRequest created with the specified parameters.
