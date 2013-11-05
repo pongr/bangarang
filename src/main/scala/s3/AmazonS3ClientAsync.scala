@@ -39,7 +39,7 @@ class AmazonS3AsyncClient(s3: AmazonS3Client, implicit val context: ExecutionCon
 
   def putBytesAsync(bucket: String, key: String, bytes: Array[Byte], contentType: String, publicRead: Boolean = false): Future[PutObjectResult] = {
     val metadata = new ObjectMetadata() //TODO would be nice to have a case class version of ObjectMetadata, along with implicit conversions
-    metadata.setContentType("image/jpeg")
+    metadata.setContentType(contentType)
     metadata.setContentLength(bytes.size)
     putObjectAsync(bucket, key, new ByteArrayInputStream(bytes), metadata, publicRead)
   }
